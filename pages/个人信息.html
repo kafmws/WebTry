@@ -1,0 +1,248 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>个人信息查询</title>
+<style type="text/css">
+   
+   #biaoti{ font-size:50px;
+   background-color:#9F3;
+            font-family:"仿宋", "黑体", "华文楷体", "华文宋体",serif;}
+	ul { list-style-type:none;
+margin:0;
+padding:0;
+background-color:#C6F;
+font-family:"仿宋", "黑体", "华文楷体", "华文宋体",serif;
+font-size:30px;
+
+height:55px;
+}
+
+.bd{float:left}
+
+.daohang{margin-left:50px;
+margin-top:0px;
+color:#FFF;}
+.xingming1{ font-size:22px;
+color:#C3F;
+margin-left:100px;
+width:200px;
+}
+.xingming2{ font-size:22px;
+color:#C3F;
+margin-left:100px;
+width:200px;
+}
+#ziliao{margin-left:10px;
+color:#C3F;
+
+width:100px;}
+.xinxi{width:300px;
+height:40px;
+
+}
+
+
+.xinxi2{}
+
+
+
+.zhaopian{margin-left:40px;
+width:300PX;
+height:300px;}
+
+
+
+<style media="screen">
+        body{
+            background-color:#FFF;
+        }
+        .title{
+            margin:0px;
+        }
+
+        .wrapper{
+        margin-right:100px;
+		margin-left:600px;
+		margin-top:50px;
+        width:500px;
+        height:300px;
+        background-color:#CCF;
+        border-radius: 10px 10px 10px 10px;
+        font-family: monoca,"微软雅黑",sans-serif;
+        /*父包含块*/
+        position:relative;
+        }
+        .wrapper > p{
+            width:400px;
+            height:200px;
+            display: block;
+            color:#C9F;
+            font-size:14px;
+
+            /*文字换行*/
+           
+
+            /*内容块绝对居中*/
+            position: absolute;
+            top:50%;
+            left:30%;
+            -webkit-transform: translate(-50%,-30%);
+                -ms-transform: translate(-50%,-30%);
+                    transform: translate(-50%,-30%);
+
+            /*文字增加阴影稍微有立体感一些*/
+            text-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+        }
+
+        .wrapper::before{
+            /*设置折角实现的位置;*/
+            position: absolute;
+            left:0;
+            height:0;
+            bottom: -60px;
+
+
+
+            content:"";
+            display: block;
+            border-width: 30px;
+            border-style: solid;
+            border-color:rgba(0, 255, 0, 0.5) rgba(0, 220, 0, 0.5) transparent transparent;
+            background-color: transparent;
+
+
+        }
+
+        .wrapper::after{
+            /*设置折角实现的位置;*/
+            position: absolute;
+            right:0;
+            height:60px;
+            bottom:-60px;
+            background-color:#CCF;
+            width:440px;
+            content:"";
+            display: block;
+
+
+        }
+
+
+        /*以下就用到动画这些了..难度稍微复杂些*/
+        /*作用于before*/
+        @-webkit-keyframes  emulate{
+            from{
+                border-color:#CCF #CCF transparent transparent;
+            }
+            to{
+                border-color:#C9F #C9F transparent transparent;
+
+            }
+
+        }
+        @keyframes  emulate{
+            from{
+                border-color:#CCF #CCF transparent transparent;
+            }
+            to{
+                border-color:#C9F #C9F transparent transparent;
+
+            }
+
+        }
+        /*作用于after*/
+        @-webkit-keyframes  emulatea{
+            from{
+                background-color:#FFF ;
+            }
+            to{
+                background-color:#C9F ;
+            }
+
+        }
+        @keyframes  emulatea{
+            from{
+                background-color:#FFF ;
+            }
+            to{
+                background-color:#C6F ;
+            }
+
+        }
+
+        /*作用于包含块*/
+        @-webkit-keyframes wrap{
+            from{
+                border-radius: 10px 10px 0 0;
+                background-color:  #CCF ;
+            }to{
+                border-radius: 100px 100px 0 0;
+                background-color: #C6F ;
+            }
+        }
+        @keyframes wrap{
+            from{
+                border-radius: 10px 10px 0 0;
+                background-color:  #CCF ;
+            }to{
+                border-radius: 100px 100px 0 0;
+                background-color: #C6F ;
+            }
+        }
+
+        
+</style>
+</head>
+
+<body>
+<ul>
+			<li class="daohang">个人信息查询</li>
+</ul>
+
+<div class="bd">
+<div class="biao">
+ <div class="zhaopian"  align="center" ><img src="../res/pic/person.png"  width="679px" height="821px" class="zhaopian" alt=""></div>
+ <div id="xinxi0">
+  <div class="xingming1" align="left">姓名：<label >
+      李梦玥
+    </label>
+    </div>
+  </div>
+ <div id="xinxi0">
+  <div class="xingming2" align="left">学号：<label >04173003</label></div>
+  
+ </div>
+</div>
+</div>
+<div class="wrapper">
+  <div align="right"  class="xinxi" ><strong>姓名：</strong>
+    <label class="xinxi2">李梦玥</label>
+  </div>
+  <div  align="right" class="xinxi"><strong>学号：</strong>
+    <label class="xinxi2">04173003</label>
+  </div>
+  <div  align="right" class="xinxi"><strong>性别：</strong>
+    <label class="xinxi2">女</label>
+  </div>
+  <div  align="right" class="xinxi"><strong>出生日期：</strong>
+    <label class="xinxi2" >1999-08-06</label>
+  </div>
+  <div  align="right" class="xinxi"><strong>政治面貌：</strong>
+    <label class="xinxi2">共青团员</label>
+  </div>
+  <div align="right" class="xinxi"><strong>民族：</strong>
+    <label class="xinxi2">汉</label>
+  </div>
+  <div  align="right" class="xinxi"><strong>证件号：</strong>
+    <label class="xinxi2">41072119990806</label>
+  </div>
+  <div  align="right" class="xinxi"><strong>电话：</strong>
+    <label class="xinxi2">13759901397</label>
+  </div>
+</div>
+<div align="right"></div>
+<div align="center"></div>
+</body>
+</html>

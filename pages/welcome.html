@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome to SGU</title>
+
+    <script src="../verify/jquery.min.js" defer></script>
+    <script src="../verify/verify.js" defer></script>
+
+    <link rel="stylesheet" type="text/css" href="../verify/verify.css">
+    <link rel="stylesheet" type="text/css" href="../css/welcome.css"/>
+
+</head>
+<body>
+
+<div class="fixed">
+    <img id="bg" src="../res/pic/1.jpg" alt="">
+
+    <span id="greeting">Welcome to SGU !</span>
+    <img id="loginArrow" src="../res/icon/arrow.png" alt=""><div id="loginOption">登录</div>
+    <img id="aboutArrow" src="../res/icon/arrow.png" alt=""><div id="aboutOption">关于我校</div>
+</div>
+
+<div id="loginBox">
+    <span class="num">
+        <label><input type="text" id="loginNumInput" autocomplete="off"></label><label class="text">学工号</label><span class="warning">学工号不少于6位</span>
+    </span>
+    <span class="pwd">
+        <label><input type="password" id="pwdInput" autocomplete="off"></label><label class="text">密码</label><span class="warning">密码不少于6位</span>
+    </span>
+    <a id="forgetPwd" href="../copy.html">忘记密码?</a>
+    <div id="loginButton">登 录</div>
+</div>
+
+<div id="verify"></div>
+
+</body>
+
+<script>
+    //页面设置
+    images = new Array(3);
+    images[0] = "../res/pic/1.jpg";
+    images[1] = "../res/pic/2.jpg";
+    images[2] = "../res/pic/3.jpg";
+
+    let bg = document.querySelector("#bg");
+    let loginArrow = document.querySelector("#loginArrow");
+    let aboutArrow = document.querySelector("#aboutArrow");
+    let loginOption = document.querySelector("#loginOption");
+    let aboutOption = document.querySelector("#aboutOption");
+    let loginBox = document.getElementById("loginBox");
+
+    function setStyleAttribute(widget, attribute, status) {
+        widget['style'][attribute] = status;
+    }
+
+    loginArrow.addEventListener('mouseover', ()=>setStyleAttribute(loginOption, 'display', 'block'));
+    loginArrow.addEventListener('mouseout', ()=>setStyleAttribute(loginOption, 'display', 'none'));
+    aboutArrow.addEventListener('mouseover', ()=>setStyleAttribute(aboutOption, 'display', 'block'));
+    aboutArrow.addEventListener('mouseout', ()=>setStyleAttribute(aboutOption, 'display', 'none'));
+    loginOption.addEventListener('mouseover', ()=>setStyleAttribute(loginOption, 'display', 'block'));
+    loginOption.addEventListener('mouseout', ()=>setStyleAttribute(loginOption, 'display', 'none'));
+    aboutOption.addEventListener('mouseover', ()=>setStyleAttribute(aboutOption, 'display', 'block'));
+    aboutOption.addEventListener('mouseout', ()=>setStyleAttribute(aboutOption, 'display', 'none'));
+
+    loginOption.addEventListener('click', ()=>{setStyleAttribute(loginBox, 'display', 'block');
+                                                        loginNumInput.focus()});
+
+    let i = 0;
+    function changeImage() {
+        bg.setAttribute("src", images[i]);
+        if (++i === 3) {
+            i = 0;
+        }
+        setTimeout(changeImage, 5000);
+    }
+
+    setTimeout(changeImage, 5000);
+</script>
+
+<script>
+    //登录框设置
+    let loginNumInput = document.querySelector("#loginNumInput");
+    let pwdInput = document.querySelector("#pwdInput");
+    let loginButton = document.querySelector("#loginButton");
+    let warningsTexts = document.getElementsByClassName("warning");
+
+    loginNumInput.placeholder = '学号/工号';
+    pwdInput.placeholder = '密码';
+
+    let verifyBox = document.querySelector("#verify");
+
+</script>
+
+<script src="../js/login.js"></script>
+
+</html>

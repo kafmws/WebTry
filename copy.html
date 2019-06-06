@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test</title>
+</head>
+<body>
+
+            <input type="file">
+            <div id="upload" >上传</div>
+
+</body>
+
+<script>
+    document.getElementById('upload').addEventListener('click', function () {
+        let files = document.querySelector("input").files;
+        fetch("http://203.195.193.218/es/excelStu", {
+            form: files
+        }).then(function success(response) {
+            alert('上传成功！');
+            return response.json();
+        },function failure() {
+            alert('上传失败！');
+        })
+    });
+</script>
+
+</html>
