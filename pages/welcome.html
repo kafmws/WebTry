@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Welcome to SGU</title>
 
-    <script src="../verify/jquery.min.js" defer></script>
+    <script src="../js/queryGrade/jquery.min.js"></script>
     <script src="../verify/verify.js" defer></script>
 
     <link rel="stylesheet" type="text/css" href="../verify/verify.css">
@@ -23,16 +23,20 @@
 
 <div id="loginBox">
     <span class="num">
-        <label><input type="text" id="loginNumInput" autocomplete="off"></label><label class="text">学工号</label><span class="warning">学工号不少于6位</span>
+        <label><input type="text" id="loginNumInput" ></label><label class="text">学工号</label><span class="warning">学工号不少于6位</span>
     </span>
     <span class="pwd">
-        <label><input type="password" id="pwdInput" autocomplete="off"></label><label class="text">密码</label><span class="warning">密码不少于6位</span>
+        <label><input type="password" id="pwdInput" ></label><label class="text">密码</label><span class="warning">密码不少于6位</span>
     </span>
-    <a id="forgetPwd" href="../copy.html">忘记密码?</a>
+    <div id="forgetPwd">忘记密码?</div>
     <div id="loginButton">登 录</div>
 </div>
 
 <div id="verify"></div>
+
+<div id="findPwdBox">
+    <div>请输入您的手机号</div><input id="tel" type="tel">
+</div>
 
 </body>
 
@@ -63,8 +67,17 @@
     aboutOption.addEventListener('mouseover', ()=>setStyleAttribute(aboutOption, 'display', 'block'));
     aboutOption.addEventListener('mouseout', ()=>setStyleAttribute(aboutOption, 'display', 'none'));
 
-    loginOption.addEventListener('click', ()=>{setStyleAttribute(loginBox, 'display', 'block');
-                                                        loginNumInput.focus()});
+    $loginBox = $('#loginBox');
+    $findPwdBox = $('#findPwdBox');
+    loginOption.addEventListener('click', ()=>{
+        // setStyleAttribute(loginBox, 'display', 'block');
+        $loginBox.fadeIn(1000);loginNumInput.focus()});
+
+    document.getElementById('forgetPwd').addEventListener('click',()=>{
+        $loginBox.fadeOut(1000);
+        $findPwdBox.fadeIn(500);
+        $findPwdBox.animate({marginTop:'180px'},800);
+    });
 
     let i = 0;
     function changeImage() {

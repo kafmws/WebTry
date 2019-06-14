@@ -1,32 +1,40 @@
-loginNumInput.addEventListener('keyup', () => {loginNumInput.value=loginNumInput.value.replace(/[^\d]/g,'');});
-loginNumInput.addEventListener('blur', ()=>{loginNumInput.value=loginNumInput.value.replace(/[^\d]/g,'');
+loginNumInput.addEventListener('keyup', () => {
+    loginNumInput.value = loginNumInput.value.replace(/[^\d]/g, '');
+});
+loginNumInput.addEventListener('blur', () => {
+    loginNumInput.value = loginNumInput.value.replace(/[^\d]/g, '');
     loginNumInput.placeholder = '学号/工号';
-    check(false);});
+    check(false);
+});
 loginNumInput.addEventListener('focus', () => loginNumInput.placeholder = "");
-pwdInput.addEventListener('focus', () => {pwdInput.placeholder = "";});
-pwdInput.addEventListener('blur', ()=>{pwdInput.placeholder = '密码';
-    check(false);});
+pwdInput.addEventListener('focus', () => {
+    pwdInput.placeholder = "";
+});
+pwdInput.addEventListener('blur', () => {
+    pwdInput.placeholder = '密码';
+    check(false);
+});
 
 //登录
 loginButton.addEventListener("click", function () {
-    if(check(false)){
+    if (check(false)) {
         verify();
-    }else{//输入不合法
+    } else {//输入不合法
         check(true);
     }
 });
 
 function check(judge) {
     let re = true;
-    warningsTexts[0].style.display=warningsTexts[1].style.display="none";
-    if (loginNumInput.value.length < 6){
+    warningsTexts[0].style.display = warningsTexts[1].style.display = "none";
+    if (loginNumInput.value.length < 6) {
         re = false;
-        warningsTexts[0].style.display=loginNumInput.value.length>0||judge?"inline":"none";
+        warningsTexts[0].style.display = loginNumInput.value.length > 0 || judge ? "inline" : "none";
     }
-    if(pwdInput.value.length < 6){
+    if (pwdInput.value.length < 6) {
         re = false;
         warningsTexts[1].innerHTML = '密码不少于6位';
-        warningsTexts[1].style.display=pwdInput.value.length>0||judge?"inline":"none";
+        warningsTexts[1].style.display = pwdInput.value.length > 0 || judge ? "inline" : "none";
     }
     return re;
 }
@@ -56,52 +64,57 @@ function verify() {
         },
         success: function () {
             verifyMsg = document.querySelector('.verify-msg');
-            verifyMsg.innerHTML='验证成功';
+            verifyMsg.innerHTML = '验证成功';
             submit();
         },
         error: function () {
             verifyMsg = document.querySelector('.verify-msg');
-            verifyMsg.innerHTML='验证失败';
+            verifyMsg.innerHTML = '验证失败';
         }
     });
 }
 
 function submit() {
-        let url = "http://203.195.193.218/es/login"
-            .concat("?num=" + loginNumInput.value)
-            .concat("&pwd=" + pwdInput.value);
-        fetch(url).then(function success(response) {
-            // console.log(response);
-            return response.json();
-        },function failure() {
-            alert("网络错误！");
-        }).then(function (json) {
-            console.log(json);
-            window.localStorage.setItem('client', JSON.stringify(json));
-            if(json.hasOwnProperty('teachNum')){//teacher
-                window.location.href='../pages/hash.html';
-            }else if(json.hasOwnProperty('stuNum')){
-                window.location.href='studentMain.html';
-            }else{//用户名或密码错误
-                warningsTexts[1].innerHTML="用户名或密码错误！";
-                setStyleAttribute(warningsTexts[1], 'display', 'inline');
-            }
-        }, function () {
-            alert("failure to reject");
-        }).catch(function(reason){
-            console.log(reason);
-        }).finally(function () {
-            verifyBox.innerHTML="";
-        });
+    let url = "http://203.195.193.218/es/login?num="
+        // let url = "http://192.168.43.91:8081/es/login?num="
+        + loginNumInput.value + "&pwd=" + pwdInput.value;
+    fetch(url, {
+        method: 'GET',
+        // mode:'cors',
+        credentials: 'include',
+    }).then(function success(response) {
+        // console.log(response);
+        return response.json();
+    }, function failure() {
+        alert("网络错误！");
+        reject("网络错误！");
+    }).then(function (json) {
+        console.log(json);
+        window.localStorage.setItem('client', JSON.stringify(json));
+        if (json.hasOwnProperty('teachNum')) {//teacher
+            window.location.href = '../pages/hash.html';
+        } else if (json.hasOwnProperty('stuNum')) {
+            window.location.href = 'studentMain.html';
+        } else {//用户名或密码错误
+            warningsTexts[1].innerHTML = "用户名或密码错误！";
+            setStyleAttribute(warningsTexts[1], 'display', 'inline');
+        }
+    }, function () {
+        console.log("failure to reject");
+    }).catch(function (reason) {
+        console.log(reason);
+    }).finally(function () {
+        verifyBox.innerHTML = "";
+    });
 }
 
 document.addEventListener('keydown',
-    function(e){
+    function (e) {
         let keyCode = e.keyCode || e.which || e.charCode;
-        if(keyCode === 13&&check(false)){
-            if(check(false)){
+        if (keyCode === 13 && check(false)) {
+            if (check(false)) {
                 verify();
-            }else{//输入不合法
+            } else {//输入不合法
                 check(true);
             }
         }

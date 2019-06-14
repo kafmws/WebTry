@@ -1,25 +1,136 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE HTML>
+<html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <title>个人中心</title>
-    <link rel="stylesheet" href="../css/hash.css">
+    <title>功能中心</title>
+
+    <link rel="stylesheet" href="../css/studentMain.css" />
+
+    <script src="../js/studentMain/jQuery.js" type="text/javascript"></script>
+    <script src="../js/studentMain/fun.base.js" type="text/javascript"></script>
+    <script src="../js/studentMain/julying.gridmenu.js" type="text/javascript"></script>
+    <script src="../js/studentMain/julying.planettravel.js" type="text/javascript"></script>
+    <script src="../js/studentMain/home.js" type="text/javascript"></script>
+    
+    <style type="text/css">
+        .xinxi {
+            width: 350px;
+            height: 40px;
+            font-size: 20px;
+        }
+    </style>
+    
 </head>
 <body>
 
-<div id="header">
-    <img id="schoolSymbol" src="../res/pic/symbol.png" alt="">
-    <div>成绩系统</div>
-    <div>考勤系统</div>
-    <div>选课系统</div>
-</div>
 
-<div>
-    <div>
-        <img id="personImg" src="../res/pic/person.png" alt=""/>
+<div id="julyingGridMenu" class="gridMenu">
+    <div class="position">
+        <div id="about-me" class="about-me item">
+            <div class="show information">
+                <div class="thumb">01</div>
+                <div class="small-thumb"></div>
+                <div class="title">个人信息</div>
+                <div class="close"></div>
+            </div>
+        </div>
+
+        <div class="about-me-body body">
+            <div class="show">
+                <div class="me"></div>
+                <div class="about" align="left">
+                    <div align="left" class="xinxi">
+                        <strong>姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名：</strong>
+                        <label class="xinxi2 stuName">李梦玥</label>
+                    </div>
+                    <div align="left" class="xinxi"><strong>学&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号：</strong>
+                        <label class="xinxi2 stuNum">04173003</label>
+                    </div>
+                    <div align="left" class="xinxi"><strong>性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别：</strong>
+                        <label class="xinxi2 sex">女</label>
+                    </div>
+                    <div align="left" class="xinxi"><strong>民&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;族：</strong>
+                        <label class="xinxi2 nation">汉</label>
+                    </div>
+                    <div align="left" class="xinxi"><strong>行政班级：</strong>
+                        <label class="xinxi2 className">软工1701</label>
+                    </div>
+                    <div align="left" class="xinxi"><strong>出生日期：</strong>
+                        <label class="xinxi2 birth">1999-08-06</label>
+                    </div>
+
+
+                    <div align="left" class="xinxi"><strong>证&nbsp;&nbsp;件&nbsp;号：</strong>
+                        <label class="xinxi2 idCard">41072119990806</label>
+                    </div>
+                    <div align="left" class="xinxi"><strong>电&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;话：</strong>
+                        <label class="xinxi2 telNum">13759901397</label>
+                    </div>
+
+                </div>
+            </div><!-- .show-->
+            <div class="bg" ></div>
+        </div><!-- .about-me-body-->
+
+        <div id="link" class="link item ">
+            <div class="attendance">
+                <div class="thumb">04</div>
+                <div class="small-thumb"></div>
+                <div class="title">考勤系统</div>
+                <div class="close"></div>
+            </div>
+        </div>
+
+        <div id="blog" class="blog item">
+            <div class="show courseSelect">
+                <div class="thumb">03</div>
+                <div class="small-thumb"></div>
+                <div class="title">选课信息</div>
+                <div class="close"></div>
+            </div>
+        </div>
+
+        <div id="contact-me" class="contact-me item">
+            <div class="show queryGrade">
+                <div class="thumb">02</div>
+                <div class="small-thumb"></div>
+                <div class="title">成绩查询</div>
+                <div class="close"></div>
+            </div>
+        </div>
+        <div class="contact-me-body body">
+            <div class="show">
+                <div class="business-card">
+
+                    <div class="expand"></div>
+                </div>
+
+
+            </div>
+            <div class="bg"></div>
+        </div>
+
+        <div class="cells">
+            <li class="cell"></li>
+        </div>
     </div>
-    <div id="name">李梦玥</div>
-    <div id="stuNum">04173003</div>
-</div>
+</div><!-- #julyingGridMenu -->
 </body>
+<script>
+    client = JSON.parse(window.localStorage.getItem('client'));
+    let information = document.querySelector('.information');
+    let queryGrade = document.querySelector('.queryGrade');
+    let attendance = document.querySelector('.attendance');
+    let courseSelect = document.querySelector('.courseSelect');
+    queryGrade.addEventListener('click', ()=>{window.location.href = 'gradeQuery.html';});
+    attendance.addEventListener('click', ()=>{window.location.href = 'studentAttendance.html';});
+    courseSelect.addEventListener('click', ()=>{window.location.href = "courseTable.html"});
+    information.addEventListener('click',()=>{
+        let items = ['stuNum','stuName','sex','nation','className','idCard','telNum','birth'];
+        items.forEach(function (item) {
+            $('.'+item).html(client[item]);
+        });
+    });
+</script>
+
 </html>

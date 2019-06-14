@@ -1,0 +1,101 @@
+table.hovertable {
+    font-family: verdana, arial, sans-serif;
+    font-size: 20px;
+    color: #333333;
+    border-width: 1px;
+    border-color: #999999;
+    border-collapse: collapse;
+    width: 100%;
+    margin: 0;
+    border-radius: 20px;
+}
+
+table.hovertable th {
+    background-color: #c3dde0;
+    border-width: 1px;
+    padding: 8px;
+    border-style: solid;
+    border-color: #a9c6c9;
+}
+
+table.hovertable tr {
+    background-color: #d4e3e5;
+}
+
+table.hovertable td {
+    border-width: 1px;
+    padding: 8px;
+    border-style: solid;
+    border-color: #a9c6c9;
+}
+
+.all div {
+    width: 90%;
+    margin: 0 auto;
+}
+
+.top {
+    width: 90%;
+    height: 50px;
+    line-height: 50px;
+    text-align: left;
+    color: #9b999b;
+    padding-left: 20px;
+    box-sizing: border-box;
+    background-color: #e9ebeb;
+    border: 1px solid #cbcbcb;
+}
+
+
+.middle {
+}
+
+.find {
+    float: right;
+    margin-right: 0 !important;
+    background-color: #f5f5f5;
+}
+
+.find {
+    /* 按钮美化 */
+    width: 70px;
+    /* 宽度 */
+    height: 30px;
+    /* 高度 */
+    line-height: 30px;
+    box-sizing: border-box;
+    border-width: 0px;
+    /* 边框宽度 */
+    border-radius: 3px;
+    /* 边框半径 */
+    background: #f5f5f5;
+    /* 背景颜色 */
+    cursor: pointer;
+    /* 鼠标移入按钮范围时出现手势 */
+    outline: none;
+    /* 不显示轮廓线 */
+    font-family: Microsoft YaHei, serif;
+    /* 设置字体 */
+    color: black;
+    /* 字体颜色 */
+    font-size: 14px;
+    /* 字体大小 */
+}
+
+.find:hover {
+    /* 鼠标移入按钮范围时改变颜色 */
+    background: #e1e2e2;
+    color: grey;
+}
+
+.time {
+    padding-right: 25px;
+}
+
+.today {
+    margin-left: -23px;
+}
+
+td{
+    text-align: center;
+}

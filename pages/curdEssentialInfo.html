@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8"/>
+    <title>信息管理</title>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+
+    <link rel="stylesheet" type="text/css" href="../css/curd/style.css"/>
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.bootcss.com/twitter-bootstrap/4.2.1/css/bootstrap.min.css"/>
+
+    <script src="../js/queryGrade/jquery.min.js"></script>
+    <script src="../js/curd/bootstrap.min.js"></script>
+    <!--<script src="../js/curd/bootbox.min.js"></script>-->
+
+    <style type="text/css">
+
+        /* RADIO */
+
+        .regular-radio {
+            display: none;
+        }
+
+        .regular-radio + label {
+            -webkit-appearance: none;
+            background-color: #fafafa;
+            border: 1px solid #cacece;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0 -15px 10px -12px rgba(0, 0, 0, 0.05);
+            padding: 9px;
+            border-radius: 50px;
+            display: inline-block;
+            position: relative;
+        }
+
+        .regular-radio:checked + label:after {
+            content: ' ';
+            width: 12px;
+            height: 12px;
+            border-radius: 50px;
+            position: absolute;
+            top: 3px;
+            background: #99a1a7;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+            /*text-shadow: 0;*/
+            left: 3px;
+            font-size: 32px;
+        }
+
+        .regular-radio:checked + label {
+            background-color: #e9ecee;
+            color: #99a1a7;
+            border: 1px solid #adb8c0;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0 -15px 10px -12px rgba(0, 0, 0, 0.05), inset 15px 10px -12px rgba(255, 255, 255, 0.1), inset 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .regular-radio + label:active, .regular-radio:checked + label:active {
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+    </style>
+
+    <style type="text/css">
+
+        .header {
+            width: 100%;
+            height: 50px;
+            line-height: 50px;
+            text-align: left;
+            color: #9b999b;
+            /*padding-left: 20px;*/
+            box-sizing: border-box;
+            background-color: #e9ebeb;
+            border: 1px solid #cbcbcb;
+        }
+
+        .check {
+            margin-left: 20px;
+            margin-top: 50px;
+            z-index: 3;
+        }
+
+        .logo {
+            margin: 0;
+            padding: 0;
+            width: 180px;
+        }
+
+        .headline {
+            margin-left: 50px;
+            text-align: center;
+        }
+
+        select {
+            z-index: 5;
+        }
+
+        .arrowPre {
+            margin-left: 550px;
+        }
+
+        .arrowNext {
+            margin-left: 50px;
+        }
+
+        .edit,.del{
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .newCollege{
+            display: none;
+            font-size: 13px; color: #666;"
+        }
+
+    </style>
+
+</head>
+<body>
+
+<div class="header"><img class="logo" src="../res/pic/symbol.png" alt=""><span class="headline">圣加里敦大学教务系统</span></div>
+
+<span class="check">教师<input type="radio" class="teacher"></span>
+<span class="check">学生<input type="radio" class="student" checked></span>
+
+<div class="content">
+    <!--搜索输入框及查询、重置按钮-->
+    <div class="container content_width">
+        <div class="person_search">
+            <div class="search_input">
+                <div class="input-group mb-3">
+                    <form class="queryForm">
+                        <select class="select_down queryType" style="font-size: 14px; color: #666; width:80px;">
+                            <option value="stuName">姓名</option>
+                            <option value="stuNum">学号</option>
+                            <option value="collegeName">学院</option>
+                            <option value="majorName">专业</option>
+                            <option value="className">行政班级</option>
+                        </select>
+                        <input id="Ktext" type="text" class="queryContent" placeholder="请输入"></form>
+                </div>
+            </div>
+
+            <div class="search_input">
+                <button class="btn btn-primary search_btn query" type="button" id="search_btn">查询</button>
+                <button class="btn btn-primary search_btn reset" type="button" id="back_btn">重置</button>
+                <input type="file" id="selectFile">
+                <button class="btn btn-primary search_btn upload" id="upload">上传</button>
+            </div>
+
+        </div>
+        <div class="line"></div>
+    </div>
+    <!--添加按钮及bootstrap的模态框-->
+    <div class="export">
+        <button id="new_add" type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                data-target="#renyuan">
+            <img src="../res/pic/add_two.png" alt=""/>
+            <span>添加</span>
+        </button>
+        <img class="arrowPre" src="../res/pic/pre.png" alt=""><img class="arrowNext" src="../res/pic/next.png" alt="">
+        <div class="modal fade" id="renyuan">
+            <div class="modal-dialog modal-lg modal_position">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">添加</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <table id="xztb" class="table">
+                            <!--新修改弹窗的样式-->
+                            <tbody>
+                            <tr>
+                                <td class="tb_bg"><label><font
+                                        style="font-size: 16px; color: red;">*</font>姓名</label>
+                                </td>
+                                <td><input class="stuName teachName" type="text" placeholder="请输入姓名"/></td>
+                                <td class="tb_bg"><label><font
+                                        style="font-size: 16px; color: red;">*</font>学号</label>
+                                </td>
+                                <td><input class="stuNum teachNum" type="number" placeholder="请输入学号"/></td>
+                            </tr>
+                            <tr>
+                                <td class="tb_bg"><label>手机号</label>
+                                </td>
+                                <td><input class="telNum" type="number" placeholder="请输入手机号"/></td>
+                                <td class="tb_bg"><label>身份证号</label></td>
+                                <td><input class="idNum" type="number" placeholder="请输入证件号"/></td>
+                            </tr>
+                            <tr>
+                                <td class="tb_bg"><label>民族</label></td>
+                                <td>
+                                    <input class="nation" type="text" placeholder="请输入民族"/>
+                                <td class="tb_bg"><label>学院</label></td>
+                                <td>
+                                    <select class="form-control select_down selectCollege" style="font-size: 13px; color: #666;">
+                                        <option>计算机学院</option>
+                                        <option>通信工程学院</option>
+                                        <option>电子工程学院</option>
+                                        <option>外国语学院</option>
+                                        <option>理学院</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="tb_bg"><label><font
+                                        style="font-size: 16px; color: red;">*</font>专业</label></td>
+                                <td><input class="majorName" type="text" placeholder="请输入专业名"/></td>
+                                <td class="tb_bg"><label><font
+                                        style="font-size: 16px; color: red;">*</font>班级</label>
+                                <td><input class="className" type="text" placeholder="请输入班级名称"/></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary cancel" data-dismiss="modal">取消</button>
+                        <button id="add_btn" type="button" class="btn btn-secondary sure">确定</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--表格列表-->
+    <table id="tb" class="table">
+        <thead>
+        <tr class="tableHeader">
+            <th>姓名</th>
+            <th>学号</th>
+            <th>手机号</th>
+            <th>性别</th>
+            <th>年级</th>
+            <th>学院</th>
+            <th>专业班级</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody class="tbody show_tbody">
+        </tbody>
+    </table>
+</div>
+<!--<script src="../js/curd/mejs.js"></script>-->
+<script src="../js/curdEssentialInfo.js"></script>
+
+<script>
+
+</script>
+
+</body>
+</html>
+

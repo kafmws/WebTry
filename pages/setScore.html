@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>成绩录入</title>
+
+    <link rel="stylesheet" type="text/css" href="../css/scoreQuery/normalize.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/scoreQuery/demo.css"/>
+
+    <script src="../js/queryGrade/jquery.min.js"></script>
+    <script src="../js/queryGrade/jquery.ba-throttle-debounce.min.js"></script>
+    <script src="../js/queryGrade/jquery.stickyheader.js" defer></script>
+
+    <!--必要样式-->
+    <link rel="stylesheet" type="text/css" href="../css/scoreQuery/component.css"/>
+    <style type="text/css">
+        .selectBox1 {
+            width: 200px;
+            height: 30px;
+            margin-left: 20px;
+            margin-top: 20px;
+            position: absolute;
+        }
+
+        .selectBox2 {
+            width: 200px;
+            height: 30px;
+            margin-left: 300px;
+            float: left;
+            margin-top: 20px;
+            position: absolute;
+        }
+
+        .bubbly-button {
+            font-family: 'Helvetica', 'Arial', sans-serif;
+            display: inline-block;
+            font-size: 1em;
+            padding: 1em 2em;
+            margin-top: 20px;
+            margin-left: 70%;
+            -webkit-appearance: none;
+            background-color: #666666;
+            color: #fff;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            transition: transform ease-in 0.1s, box-shadow ease-in 0.25s;
+            box-shadow: 0 2px 25px rgba(68, 68, 68, 0.5);
+        }
+
+        .bubbly-button:focus {
+            outline: 0;
+        }
+
+        .bubbly-button:before, .bubbly-button:after {
+            position: absolute;
+            content: '';
+            display: block;
+            width: 240%;
+            height: 100%;
+            left: -50%;
+            z-index: -1000;
+            transition: all ease-in-out 0.5s;
+            background-repeat: no-repeat;
+        }
+
+        .bubbly-button:before {
+            display: none;
+            top: -75%;
+            background-image: radial-gradient(circle, #666666 20%, transparent 20%), radial-gradient(circle, transparent 20%, #666666 20%, transparent 30%), radial-gradient(circle, #666666 20%, transparent 20%), radial-gradient(circle, #666666 20%, transparent 20%), radial-gradient(circle, transparent 10%, #666666 15%, transparent 20%), radial-gradient(circle, #666666 20%, transparent 20%), radial-gradient(circle, #666666 20%, transparent 20%), radial-gradient(circle, #666666 20%, transparent 20%), radial-gradient(circle, #666666 20%, transparent 20%);
+            background-size: 10% 10%, 20% 20%, 15% 15%, 20% 20%, 18% 18%, 10% 10%, 15% 15%, 10% 10%, 18% 18%;
+        }
+
+        .bubbly-button:after {
+            display: none;
+            bottom: -75%;
+            background-image: radial-gradient(circle, #666666 20%, transparent 20%), radial-gradient(circle, #666666 20%, transparent 20%), radial-gradient(circle, transparent 10%, #666666 15%, transparent 20%), radial-gradient(circle, #666666 20%, transparent 20%), radial-gradient(circle, #666666 20%, transparent 20%), radial-gradient(circle, #666666 20%, transparent 20%), radial-gradient(circle, #666666 20%, transparent 20%);
+            background-size: 15% 15%, 20% 20%, 18% 18%, 20% 20%, 15% 15%, 10% 10%, 20% 20%;
+        }
+
+        .bubbly-button:active {
+            transform: scale(0.9);
+            background-color: #333333;
+            box-shadow: 0 2px 25px rgba(238, 238, 238, 0.2);
+        }
+
+        .bubbly-button.animate:before {
+            display: block;
+            animation: topBubbles ease-in-out 0.75s forwards;
+        }
+
+        .bubbly-button.animate:after {
+            display: block;
+            animation: bottomBubbles ease-in-out 0.75s forwards;
+        }
+
+        @keyframes topBubbles {
+            0% {
+                background-position: 5% 90%, 10% 90%, 10% 90%, 15% 90%, 25% 90%, 25% 90%, 40% 90%, 55% 90%, 70% 90%;
+            }
+            50% {
+                background-position: 0 80%, 0 20%, 10% 40%, 20% 0, 30% 30%, 22% 50%, 50% 50%, 65% 20%, 90% 30%;
+            }
+            100% {
+                background-position: 0 70%, 0 10%, 10% 30%, 20% -10%, 30% 20%, 22% 40%, 50% 40%, 65% 10%, 90% 20%;
+                background-size: 0 0, 0 0, 0 0, 0 0, 0 0, 0 0;
+            }
+        }
+
+        @keyframes bottomBubbles {
+            0% {
+                background-position: 10% -10%, 30% 10%, 55% -10%, 70% -10%, 85% -10%, 70% -10%, 70% 0;
+            }
+            50% {
+                background-position: 0 80%, 20% 80%, 45% 60%, 60% 100%, 75% 70%, 95% 60%, 105% 0;
+            }
+            100% {
+                background-position: 0 90%, 20% 90%, 45% 70%, 60% 110%, 75% 80%, 95% 70%, 110% 10%;
+                background-size: 0 0, 0 0, 0 0, 0 0, 0 0, 0 0;
+            }
+        }
+
+    </style>
+    <style type="text/css">
+
+        table{
+            text-align: center;
+        }
+
+        .tip {
+            font-size: 16px;
+            margin-top: 23px;
+            margin-left: -500px;
+            position: absolute;
+        }
+
+        .selectBox3 {
+            width: 200px;
+            height: 30px;
+            float: left;
+            margin-top: 20px;
+            margin-left: -400px;
+            position: absolute;
+        }
+
+        .submitFile{
+            font-size: 16px;
+            margin-top: 20px;
+            margin-left: -200px;
+            position: absolute;
+        }
+
+        .hover{/*可编辑内容hover状态高亮*/
+            background-color: #dddddd;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <header>
+        <nav class="codrops-demos">
+
+            <!--<form action="" onsubmit="return validate()"-->
+                  <!--enctype="multipart/form-data" name="myFile">-->
+                <label class="tip">上传成绩文件</label><input type="file" class="selectBox3"/>
+                <input type="submit" class="submitFile" value="提交">
+            <!--</form>-->
+            <select class="selectBox1">
+                <option selected>请选择课程</option>
+            </select>
+
+            <select class="selectBox2">
+                <option selected value="NaN">请选择专业班级</option>
+            </select>
+
+        </nav>
+    </header>
+    <br>
+    <div class="component">
+        <table>
+            <thead>
+            <tr>
+                <th>班内序号</th>
+                <th>姓名</th>
+                <th>平时分</th>
+                <th>期末成绩</th>
+                <th>最终成绩</th>
+            </tr>
+            </thead>
+            <tbody class="stuList">
+            <!--<tr>-->
+                <!--<td class="stuNum"></td>-->
+                <!--<td class="stuName"></td>-->
+                <!--<td class="point"></td>-->
+                <!--<td class="score"></td>-->
+                <!--<td class="finalScore"></td>-->
+            <!--</tr>-->
+            </tbody>
+        </table>
+        <button class="bubbly-button">保存</button>
+
+        <script>
+            var animateButton = function (e) {
+                //reset animation
+                e.target.classList.remove('animate');
+
+                e.target.classList.add('animate');
+                setTimeout(function () {
+                    e.target.classList.remove('animate');
+                }, 700);
+            };
+
+            var classname = document.getElementsByClassName("bubbly-button");
+
+            for (var i = 0; i < classname.length; i++) {
+                classname[i].addEventListener('click', animateButton, false);
+            }</script>
+
+    </div>
+
+</div><!-- /container -->
+
+<script src="../js/setScore.js"></script>
+
+<script>
+    let fileSelector = document.querySelector(".selectBox3");
+    document.querySelector(".submitFile").onclick = function (){
+        if(!(fileSelector.value&&fileSelector.value.endsWith(".xls")||fileSelector.value.endsWith(".xlsx"))){
+            alert("请上传.xls或.xlsx格式的EXCEL文件！");
+            return false;
+        }
+        let formData = new FormData();
+        formData.append("myFile", fileSelector.files[0]);
+        $.ajax({
+            type: "POST",
+            url: "http://203.195.193.218/es/setScoreByExcel",
+            data: formData,
+            mimeType: "multipart/form-data",
+            contentType: false,
+            processData: false,
+            xhrFields: {
+                withCredentials: true
+            },
+            complete : function (msg) {
+                console.log(msg.responseText);
+                switch(JSON.parse(msg.responseText)['errCode']){
+                    case 0:alert("评分成功！");break;
+                    case 1:alert("身份信息过期，请重新登录！");
+                                window.location.href = "welcome.html";break;
+                    case 2:alert("抱歉，EXCEL文件内容有误！");break;
+                    case 500:alert("错误！");break;
+                }
+            },
+            error : function () {
+                alert("网络错误！");
+            }
+        });
+        return false;
+    }
+</script>
+
+</body>
+</html>

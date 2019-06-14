@@ -6,22 +6,82 @@
 </head>
 <body>
 
-            <input type="file">
-            <div id="upload" >上传</div>
+<input type="tel" multiple>
+<div id="upload">上传</div>
 
 </body>
 
+<script src="js/queryGrade/jquery.min.js"></script>
+
 <script>
+    // document.getElementById('upload').addEventListener('click', function () {
+    // let files = document.querySelector("input").files;
+    let formData = new FormData();
+    // var re;
     document.getElementById('upload').addEventListener('click', function () {
-        let files = document.querySelector("input").files;
-        fetch("http://203.195.193.218/es/excelStu", {
-            form: files
-        }).then(function success(response) {
-            alert('上传成功！');
-            return response.json();
-        },function failure() {
-            alert('上传失败！');
-        })
+        formData.append('myFile', document.querySelector("input").files[1]);
+        console.log(formData);
+    //         re = $.ajax({
+    //             type : 'POST',
+    //             url :  "http://203.195.193.218/es/excelStu",
+    //             contentType : "multipart/form-data; boundary=MULTI-PARTS-FORM-DATA-BOUNDARY\n",
+    //             body : new FormData().append('myFile', files[0]),
+    //             dataType : 'json',
+    //         },
+    //         );
+            // re.ajaxSend();
+
+    // var data = new FormData();
+    // data.append(fileElement.name, fileElement.files[0]);  //添加图片信息
+
+
+    // re = $.ajax({
+        //     url: "http://203.195.193.218/es/excelStu",
+        //     type: "POST",
+        //     data: formData,
+        //     /**
+        //      *必须false才会自动加上正确的Content-Type
+        //      */
+        //     contentType: false,
+        //     /**
+        //      * 必须false才会避开jQuery对 formdata 的默认处理
+        //      * XMLHttpRequest会对 formdata 进行正确的处理
+        //      */
+        //     processData: false,
+        //     success: function (data) {
+        //         alert("success");
+        //     },
+        //     error: function () {
+        //         alert("上传失败！");
+        //     }
+        // });
+
+
+
+        // fetch("http://203.195.193.218/es/excelStu", {
+        //     headers :  {
+        //         // 'Content-Type':'multipart/form-data'
+        //         // 'Content-Type':'multipart/form-data',
+        //         "Content-Type": "multipart/form-data;boundary=------WebKitFormBoundaryeOok34l8ducwCyZA",
+        //     },
+        //     body : formData,
+        //     method : 'POST',
+        // }).then(function resolve(response) {
+        //     if(response.ok){
+        //         alert('上传成功！');
+        //         return response.json();
+        //     }else{
+        //         reject("网络问题");
+        //     }
+        // }).then(function (json) {
+        //     console.log(json);
+        //
+        // },function () {
+        //     alert('上传失败！');
+        // }).catch(function (reason) {
+        //     console.log(reason);
+        // });
+
     });
 </script>
 

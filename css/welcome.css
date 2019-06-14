@@ -79,10 +79,6 @@ div.fixed{
     width: 120px;
 }
 
-#loginOption:hover,#aboutOption:hover{
-    cursor:pointer;
-}
-
 #loginBox{
     position: relative;
     float: right;
@@ -167,4 +163,20 @@ div.fixed{
     margin-top:12%;
     margin-left:56%;
     z-index:100;
+}
+
+#loginOption:hover,#aboutOption:hover,#forgetPwd:hover,#loginButton:hover{
+    cursor:pointer;
+}
+
+#findPwdBox{
+    position: absolute;
+    width: 400px;
+    height: 500px;
+    margin-top: -20%;/*<!--12-->*/
+    margin-left: 40%;
+    background-color: rgba(245, 245, 245, 0.7);
+    z-index: 5;
+    border-radius: 50px;
+    display: none;
 }

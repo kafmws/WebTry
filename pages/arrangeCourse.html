@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>排课系统</title>
+</head>
+<body>
+    <input class="selectFile" type="file" name="myFile"><input id="upload" type="submit" value="提交">
+</body>
+
+<script>
+    let selectFile = document.querySelector(".selectFile");
+    $(".upload").click(function () {
+        let forData = new FormData();
+        forData.append("myFile", selectFile.files[0]);
+        $.ajax({
+            type: "POST",
+            url: "http://203.195.193.218/es/addTimeTable",
+            data: forData,
+            mimeType: "multipart/form-data",
+            contentType: false,
+            processData: false,
+            xhrFields: {
+                withCredentials: true
+            },
+            complete: function (msg) {
+                console.log(msg.responseText);
+                let res = JSON.parse(msg.responseText);
+                switch (res['errCode']) {
+                    case 0:
+                        alert("添加成功！");
+                        break;
+                    case 3:
+                        alert(res['errMsg']);
+                        window.location.href = "welcome.html";
+                        break;
+                    default:
+                        alert(res['errMsg']);
+                        break;
+                }
+            },
+            error: function () {
+                alert("网络错误！");
+            }
+        });
+    });
+</script>
+
+</html>

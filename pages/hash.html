@@ -206,39 +206,34 @@
       <div class='outer_five__piece'></div>
     </div>
     <div class='pieces'>
-      <div class='future_ui__piece'>
-        <span>Warp drive</span>
+      <div class='future_ui__piece paike'>
+        <span>上传排课表</span>
         <div class='line'></div>
         <div class='tip'>
-          Yes, commander!
+        </div>
+      </div>
+      <div class='future_ui__piece grade'>
+        <span>成绩系统</span>
+        <div class='line'></div>
+        <div class='tip'>
         </div>
       </div>
       <div class='future_ui__piece'>
-        <span>Teleport</span>
+        <span>职称评定</span>
         <div class='line'></div>
         <div class='tip'>
-          Beam me up!
         </div>
       </div>
-      <div class='future_ui__piece'>
-        <span>Fusion core</span>
+      <div class='future_ui__piece info'>
+        <span>信息管理</span>
         <div class='line'></div>
         <div class='tip'>
-          Engineering!
         </div>
       </div>
-      <div class='future_ui__piece'>
-        <span>Laser target</span>
-        <div class='line'></div>
+      <!--<div class='future_ui__piece'>-->
+        <!--<span>Shields</span>-->
+        <!--<div class='line'></div>-->
         <div class='tip'>
-          Charge laz0rs!
-        </div>
-      </div>
-      <div class='future_ui__piece'>
-        <span>Shields</span>
-        <div class='line'></div>
-        <div class='tip'>
-          Status report!
         </div>
       </div>
       <div class='future_ui__piece blank'></div>
@@ -274,8 +269,15 @@
       <div class='future_ui__piece blank'></div>
     </div>
   </div>
-</div>
-  
+
+  <input style="display: none" type="file">
+
+<script>
+  document.querySelector(".grade").addEventListener('click', ()=>{window.location.href="setScore.html";});
+  document.querySelector(".info").addEventListener('click', ()=>{window.location.href="curdEssentialInfo.html";});
+  document.querySelector(".paike").addEventListener('click', ()=>{});
+</script>
+
 </body>
 </html>
 
