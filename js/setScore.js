@@ -1,11 +1,14 @@
 let course = document.querySelector(".selectBox1");
 let clazz = document.querySelector(".selectBox2");
 let stuList = document.querySelector(".stuList");
+let arrowPre = document.querySelector(".arrowPre");
+let arrowNext = document.querySelector(".arrowNext");
 $stuList = $(".stuList");
 let lastCourseNum;//上次成功请求的课程
 let lastClass;//上次成功请求的班级
 let courses;
 let classes;
+let students;
 
 (function () {
     fetch("http://203.195.193.218/es/getCourseName?year=2019&semester=2", {
@@ -37,6 +40,7 @@ function loadCourses() {
 }
 
 course.addEventListener('change', function () {
+    arrowPre.style.opacity = arrowNext.style.opacity = "0";
     if (lastCourseNum == course.value) return;
     while (clazz.childElementCount > 1) {
         clazz.removeChild(clazz.lastChild);
@@ -77,30 +81,47 @@ function loadClasses() {
 }
 
 clazz.addEventListener('change', function () {
+    arrowPre.style.opacity = arrowNext.style.opacity = "0";
     if (lastClass == clazz.value) return;
     $stuList.children().remove();
     if (!isNaN(course.value) && isNaN(clazz.value)) {//选项合法
-        fetch("http://203.195.193.218/es/selStuByClassName?className=" + clazz.value, {
-            method: 'GET',
-            credentials: "include",
-        }).then(function (response) {
-            return response.json();
-        }, function () {
-            alert("网络错误！");
-        }).then(function (json) {
-            if (json.hasOwnProperty("errCode") && json['errCode'] == 1) {
-                alert("您的登录信息已经过期，请重新登录！");
-                window.location.href = "../pages/welcome.html";
-                return;
-            }
-            lastClass = clazz.value;
-            loadStu2Table(json);
-        })
+        getStudent();
     } else {//未选中班级
         lastClass = undefined;
         stuList.innerHTML = "";
     }
 });
+
+function getStudent(pn = 1) {
+    $stuList.children().remove();
+    let formData = new FormData();
+    formData.append("className", clazz.value);
+    formData.append("pn", pn);
+    fetch("http://203.195.193.218/es/selStuByClassName", {
+        method: 'POST',
+        body:formData,
+        credentials: "include",
+    }).then(function (response) {
+        return response.json();
+    }, function () {
+        alert("网络错误！");
+    }).then(function (json) {
+        if (json.hasOwnProperty("errCode")) {
+            if(json['errCode'] == 1){
+                alert("您的登录信息已经过期，请重新登录！");
+                window.location.href = "../pages/welcome.html";
+            }else{
+                alert(json['errCode']);
+            }
+            return;
+        }
+        students = json;
+        arrowPre.style.opacity = students['hasPreviousPage']?"1.0":"0";
+        arrowNext.style.opacity = students['hasNextPage']?"1.0":"0";
+        lastClass = clazz.value;
+        loadStu2Table(json['list']);
+    }).catch((e)=>{alert(e);})
+}
 
 function loadStu2Table(stus) {
     let template = [`<tr>
@@ -184,3 +205,10 @@ function submitGrade(node) {
 //         console.log("hover");
 //     });
 // });
+
+arrowPre.addEventListener("click", () => {
+    getStudent(Number(students['pageNum']) - 1);
+});
+arrowNext.addEventListener("click", () => {
+    getStudent(Number(students['pageNum']) + 1);
+});

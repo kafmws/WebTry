@@ -8,7 +8,7 @@ let body = document.querySelector(".body");
 
 function judge() {
     if (startDate.value > '2019-3-04') startDate.value = "2019-03-04";//学期开始时间
-    if (endDate.value > '2019-7-26') endDate.value = "2019-07-26";//学期结束时间
+    if (endDate.value > '2019-7-10') endDate.value = "2019-07-10";//学期结束时间
     return endDate.value && startDate.value && endDate.value >= startDate.value;
 }
 
@@ -36,7 +36,7 @@ find.addEventListener('click', function () {
     }).catch(function (e) {
         alert("网络错误！");
         console.log(e);
-    })
+    });
 });
 
 loadJSON2Table = function (json) {

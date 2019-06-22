@@ -156,6 +156,25 @@
         .hover{/*可编辑内容hover状态高亮*/
             background-color: #dddddd;
         }
+
+        .arrowPre {
+            margin-left: 445px;
+        }
+
+        .arrowNext {
+            margin-left: 50px;
+        }
+
+        .arrowNext,.arrowPre{
+            opacity: 0;
+        }
+        
+        img {
+            width: 16px;
+            height: 16px;
+            margin-right: 6px;
+        }
+
     </style>
 </head>
 <body>
@@ -202,7 +221,7 @@
             </tbody>
         </table>
         <button class="bubbly-button">保存</button>
-
+        <img class="arrowPre" src="../res/pic/pre.png" alt=""><img class="arrowNext" src="../res/pic/next.png" alt="">
         <script>
             var animateButton = function (e) {
                 //reset animation
@@ -243,7 +262,7 @@
             contentType: false,
             processData: false,
             xhrFields: {
-                withCredentials: true
+                withCredentials: true,
             },
             complete : function (msg) {
                 console.log(msg.responseText);

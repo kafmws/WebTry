@@ -400,11 +400,11 @@ function queryStu(pn = 1) {//分页
 
 arrowPre.addEventListener("click", () => {
     if (queryContent.value == "") return;
-    queryStu(Number(queryResult['pageNum']) - 1)
+    queryStu(Number(queryResult['pageNum']) - 1);
 });
 arrowNext.addEventListener("click", () => {
     if (queryContent.value == "") return;
-    queryStu(Number(queryResult['pageNum']) + 1)
+    queryStu(Number(queryResult['pageNum']) + 1);
 });
 
 const queryTeacherURL = ["selTeach", "selTeach", "selTeachByCollegeNameOrCollegeNum"];

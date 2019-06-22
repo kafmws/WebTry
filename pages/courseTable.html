@@ -8,7 +8,6 @@
 
     <link rel="stylesheet" type="text/css" href="../css/classSchedule/demo.css"/>
     <link rel="stylesheet" type="text/css" href="../css/classSchedule/normalize.css"/>
-    <link rel="stylesheet" type="text/css" href="css/htmleaf-demo.css">
     <link href="http://cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
     <link rel="stylesheet" href="../css/classSchedule/set_6.css">
@@ -32,10 +31,10 @@
 
         </tr>
         </thead>
-        <tbody>
+        <tbody id="tbody">
         <tr>
             <td><p><strong>上午 1、2节</strong></p></td>
-            <td><p>大学英语</p> <span>时间：1-16周<br>地点：长安校区东区 FZ211<br>老师：季蓓蓓</span></td>
+            <td><p>大学英语</p> <span>时间：1-16周<br>地点：长安校区东区FZ211<br>老师：季蓓蓓</span></td>
             <td><p></p> <span></span></td>
             <td><p></p> <span></span></td>
             <td><p></p> <span></span></td>
@@ -132,7 +131,28 @@
         </tr>
         </tbody>
     </table>
-
+    <!--<table id ='testTable' style="display: none">-->
+        <!--<thead>-->
+        <!--<tr>-->
+            <!--<th>课程名称</th>-->
+            <!--<th>授课老师</th>-->
+            <!--<th>学分</th>-->
+            <!--<th>成绩</th>-->
+            <!--<th>绩点</th>-->
+            <!--<th>课程性质</th>-->
+        <!--</tr>-->
+        <!--</thead>-->
+        <!--<tbody id="body">-->
+            <!--<tr>-->
+                <!--<td>1</td>-->
+                <!--<td>2</td>-->
+                <!--<td>3</td>-->
+                <!--<td>4</td>-->
+                <!--<td>5</td>-->
+                <!--<td>6</td>-->
+            <!--</tr>-->
+        <!--</tbody>-->
+    <!--</table>-->
     <!--Set 7 start-->
     <div class="container_odd">
         <div class="set_container">
@@ -158,163 +178,9 @@
     <script src="../js/classSchedule/TweenMax.min.js"></script>
     <script src="../js/classSchedule/imagesloaded.pkgd.min.js"></script>
 
-    <script>
-        var open = false;
-        $('.trigger').each(function (index) {
-            var thisTH = $(this),
-                thisItem = $(this).find('p'),
-                thisItemSpan = $(this).find('span'),
-                t = new TimelineMax(),
-                rev = t.reversed();
-
-            t.set(thisTH, {className: '+=active'})
-                .to(thisItem, rev ? 0.3 : 0.3, {
-                    rotation: 0,
-                    transformOrigin: "50% 50%",
-                    paddingLeft: "96px",
-                    paddingRight: "96px",
-                    force3D: true,
-                    ease: Sine.easeInOut
-                })
-                .to(thisItemSpan, rev ? 0.3 : 0.3, {
-                    rotation: 0,
-                    transformOrigin: "50% 50%",
-                    paddingLeft: "12px",
-                    paddingRight: "12px",
-                    force3D: true,
-                    ease: Sine.easeInOut
-                }, '-=0.15');
-
-            $("tbody").find("tr").each(function () { // get all rows in tbody
-                var tr = $(this);
-                tr.find("td").each(function () { // get all cells in all rows
-                    var td = $(this);
-                    if (index === td.index() - 1) { // get correct cells for clicked thead
-                        t.to(td.find('span'), rev ? 0.3 : 0.3, {
-                            whiteSpace: 'initial',
-                            width: 'inherit',
-                            maxWidth: '232px',
-                            height: 'auto',
-                            autoAlpha: 1,
-                            y: 8,
-                            ease: Sine.easeInOut
-                        }, '-=0.15');
-                    }
-                });
-            });
-
-            t.reversed(true);
-            this.animation = t;
-        });
-
-        $('.trigger').click(function () {
-            if (this.animation.reversed()) {
-                this.animation.play().timeScale(1);
-            } else {
-                this.animation.reverse().timeScale(1);
-            }
-        })
-    </script>
-
 </section>
 <script src="http://oss.sheetjs.com/js-xlsx/xlsx.full.min.js"></script>
-<script>//?stuNum=04173011&year=2019&semester=2
+<script src="../js/courseTable.js"></script>
 
-function doit(type, fn, dl) {
-    var elt = document.getElementById('courseTable');
-    var wb = XLSX.utils.table_to_sheet(elt, {sheet: "Sheet JS"});
-    return dl ?
-        XLSX.write(wb, {bookType: type, bookSST: true, type: 'base64'}) :
-        XLSX.writeFile(wb, fn || ('test.' + (type || 'xlsx')));
-}
-
-let queryResult;
-let client = JSON.parse(window.localStorage.getItem('client'));
-let formData = new FormData();
-formData.append("stuNum", client.stuNum);
-formData.append("year", "2019");
-formData.append("semester", "2");
-fetch("http://203.195.193.218/es/selCourse", {
-    method: "POST",
-    body: formData,
-    credentials: "include",
-}).then(function (response) {
-    return response.json();
-}, function () {
-    alert("网络错误！");
-}).then(function (json) {
-    if (json.hasOwnProperty('errCode')) {
-        alert(json['errMsg']);
-        return;
-    }
-    console.log(json);
-    queryResult = json;
-}).catch(function (e) {
-    alert(e);
-});
-
-$(".outPut").click(function () {
-    try {
-        doit('xlsx', client.stuName + 2019 + '学年第' + 2 + '学期课表.xlsx');
-    }catch (e) {
-        console.log(e);
-        alert(e);
-    }
-});
-
-let courses;
-let course = document.querySelector(".selectNewCourse");
-
-(function () {
-    fetch("http://203.195.193.218/es/getOptionalCourse?year=2019&semester=2", {
-        method: 'GET',
-        credentials: 'include',
-    }).then(function (response) {
-        return response.json();
-    }, function () {
-        alert("网络错误！");
-    }).then(function (json) {
-        if (json.hasOwnProperty("errCode") && json['errCode'] == 1) {
-            alert("您的登录信息已经过期，请重新登录！");
-            window.location.href = "../pages/welcome.html";
-            return;
-        }
-        courses = json;
-        loadCourses();
-    }).catch(function (e) {
-        alert(e);
-    });
-})();
-
-function loadCourses() {
-    for (let i = 0; i < courses.length; i++) {
-        course.innerHTML = course.innerHTML.concat("<option value=" + courses[i]["optionalId"]
-            + '>' + courses[i]["courseName"] + "</option>");
-    }
-    // course.innerHTML = course.innerHTML.toString().replaceAll('"','');
-}
-
-// $(".sure").click(function () {
-//     fetch("http://203.195.193.218/es/getOptionalCourse?stuNum="+client.stuNum+"&optionalId="+$(".selectNewCourse"), {
-//         method: 'GET',
-//         credentials: 'include',
-//     }).then(function (response) {
-//         return response.json();
-//     }, function () {
-//         alert("网络错误！");
-//     }).then(function (json) {
-//         if (json.hasOwnProperty("errCode") && json['errCode'] == 1) {
-//             alert("您的登录信息已经过期，请重新登录！");
-//             window.location.href = "../pages/welcome.html";
-//             return;
-//         }
-//         courses = json;
-//         loadCourses();
-//     }).catch(function (e) {
-//         alert(e);
-//     });
-// })
-
-</script>
 </body>
 </html>
