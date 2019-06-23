@@ -180,3 +180,36 @@ div.fixed{
     border-radius: 50px;
     display: none;
 }
+
+.classLb{
+    margin-top: 10%;
+    margin-left: 10%;
+}
+
+.classTel{
+    margin-top: 2%;
+    margin-left: 10%;
+}
+
+.verifyTel{
+
+}
+
+#sendMeg{
+    margin-top: 10px;
+    margin-left: 10%;
+    font-size: 18px;
+    font-family: 微软雅黑, serif;
+    padding-left: 2%;
+    padding-right: 2%;
+    border-radius: 5px;
+    background: -webkit-linear-gradient(top, #66B5E6, #2e88c0);
+    background: -moz-linear-gradient(top, #66B5E6, #2e88c0);
+    background: linear-gradient(top, #66B5E6, #2e88c0);
+    background: -ms-linear-gradient(top, #66B5E6, #2e88c0);
+    border: 1px solid #2576A8;
+    box-shadow: 0 1px 2px #B8DCF1 inset, 0 -1px 0 #316F96 inset;
+    color: #fff;
+    text-shadow: 1px 1px 0.5px #22629B;
+    text-align: center;
+}

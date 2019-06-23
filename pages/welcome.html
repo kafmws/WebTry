@@ -5,7 +5,7 @@
     <title>Welcome to SGU</title>
 
     <script src="../js/queryGrade/jquery.min.js"></script>
-    <script src="../verify/verify.js" defer></script>
+    <script src="../verify/verify.js"></script>
 
     <link rel="stylesheet" type="text/css" href="../verify/verify.css">
     <link rel="stylesheet" type="text/css" href="../css/welcome.css"/>
@@ -35,7 +35,13 @@
 <div id="verify"></div>
 
 <div id="findPwdBox">
-    <div>请输入您的手机号</div><input id="tel" type="tel">
+    <div class="classLb">请输入您的手机号</div>
+    <input id="tel" class="classTel" type="tel">
+    <div class="verifyTel classLb"></div>
+    <button id="sendMeg">发送验证码</button>
+    <div class="classLb">请输入收到的验证码</div>
+    <input id="verifyCode" class="classTel">
+    <button id="modPwd">重置密码</button>
 </div>
 
 </body>
@@ -53,6 +59,7 @@
     let loginOption = document.querySelector("#loginOption");
     let aboutOption = document.querySelector("#aboutOption");
     let loginBox = document.getElementById("loginBox");
+    let tel = document.querySelector("#tel");
 
     function setStyleAttribute(widget, attribute, status) {
         widget['style'][attribute] = status;
@@ -71,12 +78,45 @@
     $findPwdBox = $('#findPwdBox');
     loginOption.addEventListener('click', ()=>{
         // setStyleAttribute(loginBox, 'display', 'block');
-        $loginBox.fadeIn(1000);loginNumInput.focus()});
+        $findPwdBox.fadeOut(500);
+        $loginBox.fadeIn(1000);loginNumInput.focus();
+    });
+
+    $(".verifyTel").codeVerify({
+        type : 2,
+        figure : 100,
+        arith : 0,
+        width : '200px',
+        height : '50px',
+        fontSize : '30px',
+        btnId: "sendMeg",
+        ready : function() {
+        },
+        success : function() {
+            fetch("http://203.195.193.218/es/getValidCode?tel="+tel.value,{
+                method:"GET",
+                credentials:'include',
+            }).then(function (response) {
+                return response.json();
+            },function () {
+                alert("网络错误！");
+            }).then(function (json) {
+                alert(json['errMsg']);
+            }).catch(function (e) {
+                alert("发送失败！");
+                console.log(e);
+            });
+        },
+        error : function() {
+            alert('验证码不匹配！');
+        }
+    });
 
     document.getElementById('forgetPwd').addEventListener('click',()=>{
         $loginBox.fadeOut(1000);
         $findPwdBox.fadeIn(500);
         $findPwdBox.animate({marginTop:'180px'},800);
+        $(".varify-input-code").placeholder="请输入运算结果";
     });
 
     let i = 0;
@@ -102,6 +142,53 @@
     pwdInput.placeholder = '密码';
 
     let verifyBox = document.querySelector("#verify");
+    let verifyCode = document.querySelector("#verifyCode");
+    let modPwd = document.querySelector("#modPwd");
+
+    modPwd.addEventListener('click', function () {
+        fetch("http://203.195.193.218/es/checkValidCode?validCode="+verifyCode.value,{
+            method:"GET",
+            credentials:'include',
+        }).then(function (response) {
+            return response.json();
+        }, function () {
+            alert("网络错误！");
+        }).then(function (json) {
+            if(json['errCode']!=0){
+                alert("验证码错误！");
+            }else{
+                modifyPwd();
+            }
+        }).catch(function (e) {
+            alert("重置失败！");
+            console.log(e);
+        })
+    });
+
+    function modifyPwd() {
+        let isSuccess=false;
+        fetch("http://203.195.193.218/es/enSurePwd?pwd1=888888&pwd2=888888",{
+            method:"GET",
+            credentials:'include',
+        }).then(function (response) {
+            return response.json();
+        },function () {
+            alert("网络错误！");
+        }).then(function (json) {
+            alert(json['errMsg']);
+            if(json['errCode']==0){
+                isSuccess = true;
+            }
+        }).catch((e)=>{
+            console.log(e);
+        }).finally(function () {
+            if(isSuccess){
+                $loginBox.fadeIn(1000);loginNumInput.focus();
+                pwdInput.value="888888";
+                $findPwdBox.fadeOut(500);
+            }
+        });
+    }
 
 </script>
 
